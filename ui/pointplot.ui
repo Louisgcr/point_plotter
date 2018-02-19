@@ -59,7 +59,7 @@
       <widget class="QLabel" name="instructionLable">
        <property name="text">
         <string>Instructions:
-1. Click on map to add Waypoints
+1. Right click on map to add Waypoints
 2. Click on Plot points to see the route
 3. Click on Clear Plot Points to clear plots
 4. Click on Run to execute route
@@ -70,12 +70,15 @@
      <item>
       <layout class="QHBoxLayout" name="InputFile">
        <item>
-        <widget class="QTextEdit" name="fileDirText">
+        <widget class="QLabel" name="fileDirLabel">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>4</horstretch>
+           <verstretch>1</verstretch>
           </sizepolicy>
+         </property>
+         <property name="text">
+          <string>...</string>
          </property>
         </widget>
        </item>

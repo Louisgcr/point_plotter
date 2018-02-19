@@ -29,7 +29,7 @@ include_directories(
 	${Qt5PrintSupport_INCLUDE_DIRS}
 )
 
-add_definitions( -std=c++11 -fPIC)
+add_definitions( -std=c++11 -fPIC )
 
 set( QT_SOURCES
 	src/main.cpp
@@ -47,10 +47,11 @@ set( QT_SOURCES
 
 add_executable(point_plotter ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP})
 
-target_link_libraries(point_plotter 
+target_link_libraries(point_plotter yaml-cpp
 ${catkin_LIBRARIES}
 	Qt5::Core
 	Qt5::Widgets
 	Qt5::PrintSupport  
+
 )
 install(TARGETS point_plotter RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
