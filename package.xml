@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>point_plotter</name>
+  <version>0.0.1</version>
+  <description>The point_plotter package</description>
+  <maintainer email="louis@todo.todo">louis</maintainer>
+
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>libqt4-dev</build_depend>
+  <build_depend>qt_build</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>libqt4-dev</build_export_depend>
+  <build_export_depend>qt_build</build_export_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>libqt4-dev</exec_depend>
+  <exec_depend>qt_build</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+
+
+  <export>
+
+  </export>
+</package>
