@@ -1,7 +1,8 @@
 #include "../include/point_plotter/mapviewer.h"
 
-
-mapviewer::mapviewer(QWidget *parent) : QGraphicsView(parent)//: QWidget(parent)
+mapviewer::mapviewer(QWidget *parent) :
+                     QGraphicsView(parent),
+                     _pointsDrawn(0, Cornu::NOT_CIRCULAR)
 {
   setMouseTracking(true);
 }
@@ -17,6 +18,9 @@ void mapviewer::mouseDoubleClickEvent(QMouseEvent* event){
     double rad = 2.5;
     scene->addEllipse(pt.x()-rad, pt.y()-rad, rad*2.0, rad*2.0,
                       QPen(Qt::green), QBrush(Qt::green, Qt::SolidPattern));
+
+    _pointsDrawn.push_back(Eigen::Vector2d(pt.x(), pt.y()));
+
     event->accept();
     return;
   }

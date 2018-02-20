@@ -14,8 +14,7 @@ class PointPlot : public QWidget
 public:
     explicit PointPlot(QWidget *parent = 0);
     ~PointPlot();
-
-  QString map_path, map_info_path;
+    QString map_path, map_info_path;
 
 private slots:
   void on_fileDir_clicked();

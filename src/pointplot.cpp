@@ -6,13 +6,15 @@
 #include <QLayout>
 #include <QSplitter>
 #include <QFileDialog>
+#include "Cornucopia.h"
+
 
 PointPlot::PointPlot(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PointPlot)
 {
     ui->setupUi(this);
-    //ui->mapBox->display_map("/home/louis/Qt_ws/src/point_plotter/resources/maps/random_wall/random_wall_map.pgm");
+
 }
 
 PointPlot::~PointPlot()
@@ -61,7 +63,19 @@ void PointPlot::on_fileDir_clicked()
  */
 void PointPlot::on_plotPointButton_clicked()
 {
+  if(ui->mapBox->_pointsDrawn.size() > 1){
 
+       Cornu::Fitter fitter;
+       Cornu::Parameters params;
+       fitter.setParams(params);
+       fitter.setOriginalSketch(new Cornu::Polyline(ui->mapBox->_pointsDrawn));
+       Cornu::PrimitiveSequenceConstPtr output = fitter.finalOutput();
+       //std::cout<<output->primitives().size()<<std::endl;
+       //std::cout<<output->primitives().toLinearIdx(0);
+
+
+    return;
+  }
 }
 
 /**
@@ -71,6 +85,7 @@ void PointPlot::on_plotPointButton_clicked()
 void PointPlot::on_clearPointButton_clicked()
 {
   ui->mapBox->display_map(map_path);
+  ui->mapBox->_pointsDrawn.clear();
 }
 
 /**

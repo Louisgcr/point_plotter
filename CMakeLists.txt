@@ -23,13 +23,15 @@ QT5_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
 QT5_WRAP_UI(QT_FORMS_HPP ${QT_FORMS}) 
 
 include_directories(
+    include 
 	${Qt5Core_INCLUDE_DIRS}
 	${Qt5Gui_INCLUDE_DIRS}
 	${Qt5Widgets_INCLUDE_DIRS}
 	${Qt5PrintSupport_INCLUDE_DIRS}
+    ${Eigen_INCLUDE_DIRS}
 )
 
-add_definitions( -std=c++11 -fPIC )
+add_definitions( -std=c++11 -fPIC)
 
 set( QT_SOURCES
 	src/main.cpp
@@ -52,6 +54,6 @@ ${catkin_LIBRARIES}
 	Qt5::Core
 	Qt5::Widgets
 	Qt5::PrintSupport  
-
+    /usr/local/lib/libCornucopia.a
 )
 install(TARGETS point_plotter RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

@@ -11,6 +11,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <yaml-cpp/yaml.h>
+#include <VectorC.h>
+#include <Polyline.h>
 
 #define prius_width  1.76
 #define prius_length 4.5
@@ -30,6 +32,8 @@ public:
   bool _pan;
   int _panStartX, _panStartY;
   QPointF target_viewport_pos, target_scene_pos;
+
+  Cornu::VectorC<Eigen::Vector2d> _pointsDrawn;
 
 signals:
 
