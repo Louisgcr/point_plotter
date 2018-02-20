@@ -12,6 +12,7 @@ PointPlot::PointPlot(QWidget *parent) :
     ui(new Ui::PointPlot)
 {
     ui->setupUi(this);
+    //ui->mapBox->display_map("/home/louis/Qt_ws/src/point_plotter/resources/maps/random_wall/random_wall_map.pgm");
 }
 
 PointPlot::~PointPlot()

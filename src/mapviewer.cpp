@@ -1,29 +1,106 @@
 #include "../include/point_plotter/mapviewer.h"
-#include <iostream>
-#include <stdio.h>
-#include <yaml-cpp/yaml.h>
+
 
 mapviewer::mapviewer(QWidget *parent) : QGraphicsView(parent)//: QWidget(parent)
 {
   setMouseTracking(true);
-  setDragMode(ScrollHandDrag);
-
 }
 
 /**
- * @brief mousePressEvent: Gets the position of mouse relative to the widget
- * @param event: Click event
+ * @brief mouseDoubleClickEvent: Double left click to add points to the map and to the array
+ * @param event
  */
-void mapviewer::mousePressEvent(QMouseEvent* event)
-{
+void mapviewer::mouseDoubleClickEvent(QMouseEvent* event){
 
-  if(event->button() == Qt::RightButton){
+  if(event->button() == Qt::LeftButton){
     QPointF pt = mapToScene(event->pos());
     double rad = 2.5;
     scene->addEllipse(pt.x()-rad, pt.y()-rad, rad*2.0, rad*2.0,
                       QPen(Qt::green), QBrush(Qt::green, Qt::SolidPattern));
+    event->accept();
+    return;
   }
 }
+/**
+ * @brief mousePressEvent: Left click or middle wheel button click to start panning
+ * @param event: Click event
+ */
+void mapviewer::mousePressEvent(QMouseEvent* event)
+{
+  if (event->button() == Qt::LeftButton || event->button() == Qt::MiddleButton)
+  {
+      _pan = true;
+      _panStartX = event->x();
+      _panStartY = event->y();
+      setCursor(Qt::ClosedHandCursor);
+      event->accept();
+      return;
+  }
+}
+/**
+ * @brief mouseReleaseEvent: release left button or middle button to stop panning
+ * @param event
+ */
+void mapviewer::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton || event->button() == Qt::MiddleButton)
+    {
+        _pan = false;
+        setCursor(Qt::ArrowCursor);
+        event->accept();
+        return;
+    }
+    event->ignore();
+}
+
+/**
+ * @brief mouseMoveEvent: Store mouse position relative to the scene for zooming case
+ *                        Set horizontal and vertical scroll bars for panning
+ * @param event
+ */
+void mapviewer::mouseMoveEvent(QMouseEvent* event)
+{
+  target_viewport_pos = event->pos();
+  target_scene_pos = mapToScene(event->pos());
+
+  if (_pan)
+  {
+      horizontalScrollBar()->setValue(horizontalScrollBar()->value() - (event->x() - _panStartX));
+      verticalScrollBar()->setValue(verticalScrollBar()->value() - (event->y() - _panStartY));
+      _panStartX = event->x();
+      _panStartY = event->y();
+      event->accept();
+      return;
+  }
+  event->ignore();
+}
+
+/**
+ * @brief wheelEvent: rescale the image to zoom and unzoom, set view area to where the mouse is
+ * @param event
+ */
+void mapviewer::wheelEvent(QWheelEvent *event){
+        // Scale the view / do the zoom
+        double scaleFactor = 1.15;
+        if(event->delta() > 0) {
+            // Zoom in
+            scale(scaleFactor, scaleFactor);
+
+        } else {
+            // Zooming out
+            scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        }
+
+
+        QPointF delta_viewport_pos = target_viewport_pos - QPointF(viewport()->width() / 2.0,
+                                                                     viewport()->height() / 2.0);
+        QPointF viewport_center = mapFromScene(target_scene_pos) - delta_viewport_pos;
+        centerOn(mapToScene(viewport_center.toPoint()));
+
+        event->accept();
+        return;
+}
+
 
 /**
  * @brief display_map: Creates a scence and a pixmap to display
