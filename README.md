@@ -7,6 +7,7 @@ fitting algorithm and send the goal location to the robot.
 ## Prerequisites
 Install [Qt5](https://www.qt.io/download) <br/>
 Install [cornucopia-lib](https://github.com/matieum/cornucopia-lib)<br/>
+Install [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page#Download)<br/>
 <br/>
 Not needed but useful:<br/>
 Install [Qtcreator-ros plugin]( https://ros-industrial.github.io/ros_qtc_plugin/_source/How-to-Install-Users.html)<br/>
