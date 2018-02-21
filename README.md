@@ -12,16 +12,38 @@ Not needed but useful:<br/>
 Install [Qtcreator-ros plugin]( https://ros-industrial.github.io/ros_qtc_plugin/_source/How-to-Install-Users.html)<br/>
 
 ## Instruction
-### Install cornucopia-lib
+### Install cornucopia-lib & Eigen Library 
 ```
+cd ~/Documents
 git clone https://github.com/matieum/cornucopia-lib
+hg clone https://bitbucket.org/eigen/eigen/
 cd cornucopia-lib
 mkdir build
 cd build
 cmake ..
 make
 sudo make install
+cd ~/Documents/eigen
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
 ```
+Edit the following files Debugging.h AngleUtils.h VectorC.h
+```
+sudo nano /usr/local/include/Debugging.h
+Change #include "Eigen/Core" -> #include "eigen3/Eigen/Core"
+
+sudo nano /usr/local/include/AngleUtils.h
+Change #include "Eigen/Core" -> #include "eigen3/Eigen/Core"
+
+sudo nano /usr/local/include/VectorC.h
+Change #include "Eigen/StdVector" -> #include "eigen3/Eigen/StdVector"
+
+```
+
+
 
 ### Compile program
 1. clone repo into catkin workspace
