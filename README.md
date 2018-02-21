@@ -29,9 +29,8 @@ sudo make install
 
 ### Run Program
 1. source workspace
-2. `rosrun point_plotter point_plotter`
-<br/>
-![alt text](https://github.com/Louisgcr/point_plotter/blob/master/resources/images/PointPlotter.png)
+2. `rosrun point_plotter point_plotter`  <br/>
+![Screenshot](https://raw.githubusercontent.com/Louisgcr/point_plotter/master/resources/images/PointPlotter.png)
 
 ## Built With
 C++ <br/>
