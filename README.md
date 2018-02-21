@@ -14,22 +14,24 @@ Install [Qtcreator-ros plugin]( https://ros-industrial.github.io/ros_qtc_plugin/
 ## Instruction
 ### Install cornucopia-lib
 ```
-git clone https://github.com/matieum/cornucopia-lib <br/>
-cd cornucopia-lib <br/>
-mkdir build <br/>
-cd build <br/>
-cmake .. <br/>
-make <br/>
-sudo make install <br/>
+git clone https://github.com/matieum/cornucopia-lib
+cd cornucopia-lib
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
 ```
 
-### To compile program
+### Compile program
 1. clone repo into catkin workspace
 2. `catkin_make`
 
 ### Run Program
 1. source workspace
 2. `rosrun point_plotter point_plotter`
+<br/>
+![alt text](https://github.com/Louisgcr/point_plotter/blob/master/resources/images/PointPlotter.png)
 
 ## Built With
 C++ <br/>
