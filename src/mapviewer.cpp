@@ -7,10 +7,64 @@ mapviewer::mapviewer(QWidget *parent) :
   setMouseTracking(true);
 }
 
-/**
- * @brief mouseDoubleClickEvent: Double left click to add points to the map and to the array
- * @param event
- */
+
+void mapviewer::display_map(const QString map_path){
+
+  //Set scene and display map
+  image->load(map_path);
+  scene->addPixmap(*image);
+  setScene(scene);
+  show();
+
+  //Get infomation of map, height width and origin
+  map_width = scene->width() ;
+  map_height = scene->height();
+  origin_x = map_width/2;
+  origin_y = map_height/2;
+
+  scene->addRect(origin_x - prius_length/(2*resolution), origin_y -prius_width/(2*resolution), prius_length/resolution, prius_width/resolution,
+                 QPen(Qt::green, 1, Qt::DashLine,Qt::RoundCap, Qt::RoundJoin),
+                 QBrush(Qt::green, Qt::NoBrush));
+
+}
+
+void mapviewer::get_map_resolution(const QString map_info_path){
+     YAML::Node config = YAML::LoadFile(map_info_path.toStdString());
+     std::string resolution_str = config["resolution"].as<std::string>();
+     resolution = ::atof(resolution_str.c_str());
+}
+
+void mapviewer::drawDiscretisePath(void){
+
+  fitter.setParams(params);
+  fitter.setOriginalSketch(new Cornu::Polyline(_pointsDrawn));
+  fitter.run();
+  Cornu::PrimitiveSequenceConstPtr output = fitter.finalOutput();
+
+  if(output){
+
+     double length;
+     for (int i =0; i < output->primitives().size(); i++){
+         Cornu::CurveConstPtr curve = output->primitives()[i];
+         for(double s = 0; s < curve->length(); s+=0.2){
+             Eigen::Vector2d pt, der, der2;
+             curve->eval(s, &pt, &der, &der2);
+             double yaw = atan2(der[1], der[0]);
+             drawnPath << QPointF(pt[0], pt[1]);
+         }
+
+     }
+
+     for(int j =0; j < drawnPath.size()-1; j++){
+       QLineF tempLine(drawnPath[j], drawnPath[j+1]);
+       scene->addLine(tempLine,
+                      QPen(Qt::green, 1, Qt::DashLine,Qt::RoundCap, Qt::RoundJoin));
+     }
+  }
+
+}
+
+
 void mapviewer::mouseDoubleClickEvent(QMouseEvent* event){
 
   if(event->button() == Qt::LeftButton){
@@ -20,15 +74,11 @@ void mapviewer::mouseDoubleClickEvent(QMouseEvent* event){
                       QPen(Qt::green), QBrush(Qt::green, Qt::SolidPattern));
 
     _pointsDrawn.push_back(Eigen::Vector2d(pt.x(), pt.y()));
-
     event->accept();
     return;
   }
 }
-/**
- * @brief mousePressEvent: Left click or middle wheel button click to start panning
- * @param event: Click event
- */
+
 void mapviewer::mousePressEvent(QMouseEvent* event)
 {
   if (event->button() == Qt::LeftButton || event->button() == Qt::MiddleButton)
@@ -41,10 +91,7 @@ void mapviewer::mousePressEvent(QMouseEvent* event)
       return;
   }
 }
-/**
- * @brief mouseReleaseEvent: release left button or middle button to stop panning
- * @param event
- */
+
 void mapviewer::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton || event->button() == Qt::MiddleButton)
@@ -57,11 +104,7 @@ void mapviewer::mouseReleaseEvent(QMouseEvent *event)
     event->ignore();
 }
 
-/**
- * @brief mouseMoveEvent: Store mouse position relative to the scene for zooming case
- *                        Set horizontal and vertical scroll bars for panning
- * @param event
- */
+
 void mapviewer::mouseMoveEvent(QMouseEvent* event)
 {
   target_viewport_pos = event->pos();
@@ -79,10 +122,7 @@ void mapviewer::mouseMoveEvent(QMouseEvent* event)
   event->ignore();
 }
 
-/**
- * @brief wheelEvent: rescale the image to zoom and unzoom, set view area to where the mouse is
- * @param event
- */
+
 void mapviewer::wheelEvent(QWheelEvent *event){
         // Scale the view / do the zoom
         double scaleFactor = 1.15;
@@ -105,37 +145,3 @@ void mapviewer::wheelEvent(QWheelEvent *event){
         return;
 }
 
-
-/**
- * @brief display_map: Creates a scence and a pixmap to display
- * @param map_path: Path to image file
- */
-void mapviewer::display_map(const QString map_path){
-
-  //Set scene and display map
-  image->load(map_path);
-  scene->addPixmap(*image);
-  setScene(scene);
-  show();
-
-  //Get infomation of map, height width and origin
-  map_width = scene->width() ;
-  map_height = scene->height();
-  origin_x = map_width/2;
-  origin_y = map_height/2;
-
-  scene->addRect(origin_x - prius_length/(2*resolution), origin_y -prius_width/(2*resolution), prius_length/resolution, prius_width/resolution,
-                 QPen(Qt::green, 1, Qt::DashLine,Qt::RoundCap, Qt::RoundJoin),
-                 QBrush(Qt::green, Qt::NoBrush));
-
-}
-
-/**
- * @brief get_map_resolution: get resolution of map
- * @param map_info_path
- */
-void mapviewer::get_map_resolution(const QString map_info_path){
-     YAML::Node config = YAML::LoadFile(map_info_path.toStdString());
-     std::string resolution_str = config["resolution"].as<std::string>();
-     resolution = ::atof(resolution_str.c_str());
-}

@@ -1,8 +1,14 @@
 #ifndef POINTPLOT_H
 #define POINTPLOT_H
 
-#include <QWidget>
 #include "ui_pointplot.h"
+#include <QWidget>
+#include <QFileSystemModel>
+#include <QTreeView>
+#include <QLayout>
+#include <QSplitter>
+#include <QFileDialog>
+
 namespace Ui {
 class PointPlot;
 }
@@ -23,7 +29,7 @@ private slots:
   void on_runButton_clicked();
   void on_stopButton_clicked();
   void on_quitButton_clicked();
-  //void on_fileDirText_textChanged();
+
 
 private:
     Ui::PointPlot *ui;

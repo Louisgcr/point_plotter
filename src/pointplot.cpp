@@ -1,12 +1,6 @@
 #include "../include/point_plotter/pointplot.h"
 #include "../include/point_plotter/mapviewer.h"
-#include "ui_pointplot.h"
-#include <QFileSystemModel>
-#include <QTreeView>
-#include <QLayout>
-#include <QSplitter>
-#include <QFileDialog>
-#include "Cornucopia.h"
+
 
 
 PointPlot::PointPlot(QWidget *parent) :
@@ -35,6 +29,7 @@ void PointPlot::on_fileDir_clicked()
                                                   currentDir,
                                                   tr("Image Files (*.pgm);; YAML files (*.yaml)"));
 
+  //Configure selection of file, assumes image and yaml file are named similarly
   if(fileName.contains(".pgm")){
     map_path = fileName;
     fileName.replace(".pgm", ".yaml");
@@ -52,6 +47,7 @@ void PointPlot::on_fileDir_clicked()
   ui->mapBox->get_map_resolution(map_info_path);
   ui->mapBox->display_map(map_path);
 
+  //Set the name of the file on the label
   ui->fileDirLabel->setText(map_path);
   ui->fileDirLabel->setWordWrap(true);
 
@@ -64,18 +60,10 @@ void PointPlot::on_fileDir_clicked()
 void PointPlot::on_plotPointButton_clicked()
 {
   if(ui->mapBox->_pointsDrawn.size() > 1){
-
-       Cornu::Fitter fitter;
-       Cornu::Parameters params;
-       fitter.setParams(params);
-       fitter.setOriginalSketch(new Cornu::Polyline(ui->mapBox->_pointsDrawn));
-       Cornu::PrimitiveSequenceConstPtr output = fitter.finalOutput();
-       //std::cout<<output->primitives().size()<<std::endl;
-       //std::cout<<output->primitives().toLinearIdx(0);
-
-
-    return;
+    ui->mapBox->drawDiscretisePath();
   }
+  //TODO throw alert box not enough points
+  return;
 }
 
 /**
@@ -86,6 +74,7 @@ void PointPlot::on_clearPointButton_clicked()
 {
   ui->mapBox->display_map(map_path);
   ui->mapBox->_pointsDrawn.clear();
+  ui->mapBox->drawnPath.clear();
 }
 
 /**
