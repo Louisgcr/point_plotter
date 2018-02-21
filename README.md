@@ -5,37 +5,37 @@ to add points that you want the robot to follow. It will then link the points up
 fitting algorithm and send the goal location to the robot.
 
 ## Prerequisites
-Install [Qt5] (https://www.qt.io/download)
-Install [cornucopia-lib](https://github.com/matieum/cornucopia-lib)
-
-Not needed but useful:
-Install [Qtcreator-ros plugin]( https://ros-industrial.github.io/ros_qtc_plugin/_source/How-to-Install-Users.html)
+Install [Qt5](https://www.qt.io/download) <br/>
+Install [cornucopia-lib](https://github.com/matieum/cornucopia-lib)<br/>
+<br/>
+Not needed but useful:<br/>
+Install [Qtcreator-ros plugin]( https://ros-industrial.github.io/ros_qtc_plugin/_source/How-to-Install-Users.html)<br/>
 
 ## Instruction
-### To install cornucopia-lib
-'''
-git clone https://github.com/matieum/cornucopia-lib
-cd cornucopia-lib
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-'''
+### Install cornucopia-lib
+```
+git clone https://github.com/matieum/cornucopia-lib <br/>
+cd cornucopia-lib <br/>
+mkdir build <br/>
+cd build <br/>
+cmake .. <br/>
+make <br/>
+sudo make install <br/>
+```
 
 ### To compile program
 1. clone repo into catkin workspace
-2. run 'catkin_make'
+2. `catkin_make`
 
 ### Run Program
 1. source workspace
-2. run 'rosrun point_plotter point_plotter'
+2. `rosrun point_plotter point_plotter`
 
 ## Built With
-C++
-[ROS](http://www.ros.org/) -- Framework in use
-[Qt](https://www.qt.io/) -- UI Design
-[Cornucopia-lib](https://github.com/matieum/cornucopia-lib) -- Curve drawing
+C++ <br/>
+[ROS](http://www.ros.org/) -- Framework in use <br/>
+[Qt](https://www.qt.io/) -- UI Design <br/>
+[Cornucopia-lib](https://github.com/matieum/cornucopia-lib) -- Curve drawing <br/>
 
 ## Authors
 Louis Goh
