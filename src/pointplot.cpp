@@ -8,7 +8,7 @@ PointPlot::PointPlot(QWidget *parent) :
     ui(new Ui::PointPlot)
 {
     ui->setupUi(this);
-
+	setWindowIcon(QIcon(":/images/icon.png"));
 }
 
 PointPlot::~PointPlot()
