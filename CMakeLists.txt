@@ -37,9 +37,11 @@ set( QT_SOURCES
 	src/main.cpp
 	src/pointplot.cpp
 	src/mapviewer.cpp
+	src/pp_qros.cpp
 
 	include/point_plotter/pointplot.h
 	include/point_plotter/mapviewer.h
+    include/point_plotter/pp_qros.h
 
 )
 

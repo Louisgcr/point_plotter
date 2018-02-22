@@ -3,12 +3,18 @@
 
 
 
-PointPlot::PointPlot(QWidget *parent) :
+PointPlot::PointPlot(int argc, char** argv, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PointPlot)
+    ui(new Ui::PointPlot),
+    qros(argc, argv)
 {
     ui->setupUi(this);
-	setWindowIcon(QIcon(":/images/icon.png"));
+    setWindowIcon(QIcon(":/images/icon.png"));
+
+    //When ROS shutdown, quit the UI
+    QObject::connect(&qros, SIGNAL(rosShutdown()), this, SLOT(on_quitButton_clicked()));
+    QObject::connect(&qros, SIGNAL(noROSMaster()), this, SLOT(displayNoMaster()));
+
 }
 
 PointPlot::~PointPlot()
@@ -16,10 +22,6 @@ PointPlot::~PointPlot()
     delete ui;
 }
 
-/**
- * @brief PointPlot::on_fileDir_clicked
- * When clicked, it opens file directory to choose image to display on mapbox
- */
 void PointPlot::on_fileDir_clicked()
 {
   QString currentDir = QDir::currentPath();
@@ -53,10 +55,7 @@ void PointPlot::on_fileDir_clicked()
 
 }
 
-/**
- * @brief PointPlot::on_plotPointButton_clicked
- * When clicked, it plots the point and the corresponding bezier curve of the path
- */
+
 void PointPlot::on_plotPointButton_clicked()
 {
   if(ui->mapBox->_pointsDrawn.size() > 1){
@@ -66,10 +65,7 @@ void PointPlot::on_plotPointButton_clicked()
   return;
 }
 
-/**
- * @brief PointPlot::on_clearPointButton_clicked
- * Remove points that is currently plotted
- */
+
 void PointPlot::on_clearPointButton_clicked()
 {
   ui->mapBox->display_map(map_path);
@@ -77,31 +73,33 @@ void PointPlot::on_clearPointButton_clicked()
   ui->mapBox->drawnPath.clear();
 }
 
-/**
- * @brief PointPlot::on_runButton_clicked
- * Ask ROS to execute the program to run the path planner
- */
+
 void PointPlot::on_runButton_clicked()
 {
 
+  if(! ros::master::check()){
+    qros.init();
+    return;
+  }
+
 }
 
-/**
- * @brief PointPlot::on_stopButton_clicked
- * Ask ROS to stop the car
- */
+
 void PointPlot::on_stopButton_clicked()
 {
 
 }
 
-/**
- * @brief PointPlot::on_quitButton_clicked
- * Quit the program
- */
+
 void PointPlot::on_quitButton_clicked()
 {
-
+  close();
 }
 
+void PointPlot::displayNoMaster(){
+  QString noMaster = "No ROS Master found...\n";
+  ui->infoBox->insertPlainText(noMaster);
+  ui->infoBox->verticalScrollBar()->setValue(ui->infoBox->verticalScrollBar()->maximum());
+
+}
 

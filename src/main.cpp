@@ -1,11 +1,12 @@
 #include "../include/point_plotter/pointplot.h"
 #include <QApplication>
 
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    PointPlot w;
-    w.show();
+    QApplication application(argc, argv);
+    PointPlot point_plot_window(argc, argv);
+    point_plot_window.show();
 
-    return a.exec();
+    return application.exec();
 }
