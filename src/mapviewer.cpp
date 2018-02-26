@@ -36,6 +36,7 @@ void mapviewer::get_map_resolution(const QString map_info_path){
 
 void mapviewer::drawDiscretisePath(void){
 
+  _pointsDrawn.insert(_pointsDrawn.begin(), Eigen::Vector2d(origin_x, origin_y));
   fitter.setParams(params);
   fitter.setOriginalSketch(new Cornu::Polyline(_pointsDrawn));
   fitter.run();
@@ -52,7 +53,6 @@ void mapviewer::drawDiscretisePath(void){
              double yaw = atan2(der[1], der[0]);
              drawnPath << QPointF(pt[0], pt[1]);
          }
-
      }
 
      for(int j =0; j < drawnPath.size()-1; j++){

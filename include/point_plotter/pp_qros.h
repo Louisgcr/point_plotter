@@ -31,10 +31,12 @@ class QROS : public QThread {
     void currentPositionCB(const geometry_msgs::Pose::ConstPtr& msg);
     geometry_msgs::Pose currPos;
 
+    void tf_map2Image(void);
+    void tf_image2Map(void);
+
   private:
     int init_argc;
     char** init_argv;
-    ros::Publisher chatter_publisher;
     ros::Publisher goal_publisher;
     ros::Subscriber position_subscriber;
 

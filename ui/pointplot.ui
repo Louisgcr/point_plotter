@@ -59,7 +59,7 @@
       <widget class="QLabel" name="instructionLable">
        <property name="text">
         <string>Instructions:
-1. Right click on map to add Waypoints
+1. Double Left click on map to add Waypoints
 2. Click on Plot points to see the route
 3. Click on Clear Plot Points to clear plots
 4. Click on Run to execute route
